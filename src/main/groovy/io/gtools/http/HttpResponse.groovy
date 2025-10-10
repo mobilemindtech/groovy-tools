@@ -7,6 +7,7 @@ import groovy.json.JsonOutput
 
 class HttpResponse {
     Object rawResp
+    Object rawBody
     Object body
     int statusCode
     Object statusLine
@@ -27,9 +28,11 @@ class HttpResponse {
         JsonOutput.toJson(body)
     }
 
+    boolean isOk() { statusCode == 200 }
+
     def <T> T decode(Class<T> cls, GsonBuilder builder = null) {
         builder = builder ?: new Gson().newBuilder()
-        builder.create().fromJson(body, cls)
+        builder.create().fromJson(body ?: rawBody, cls)
     }
 
     def propertyMissing(String propertyName) {
@@ -42,5 +45,14 @@ class HttpResponse {
                 status_text: this.statusLine,
                 status_code: this.statusCode,
         ]
+    }
+
+    String toString() {
+        JsonOutput.prettyPrint(
+            JsonOutput.toJson([
+                body       : this.body,
+                status_text: this.statusLine,
+                status_code: this.statusCode,
+            ]))
     }
 }

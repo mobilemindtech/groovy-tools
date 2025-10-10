@@ -18,21 +18,22 @@ repositories {
 }
 
 dependencies {
-    api libs.groovy
-    api libs.groovy.json
-    api libs.groovy.sql
-    api libs.gson
-    api libs.slf4j
-    api libs.httpbuilder
-    api libs.gio
-    api libs.gio.ast
+    implementation libs.groovy
+    implementation libs.groovy.json
+    implementation libs.groovy.sql
+    implementation libs.gson
+    implementation libs.slf4j
+    implementation libs.gio
+    implementation libs.gio.ast
 }
 
 group = 'io.gtools'
 version = '0.0.1'
 description = 'Groovy tools'
 
-java.sourceCompatibility = JavaVersion.VERSION_24
+java {
+    java.sourceCompatibility = JavaVersion.VERSION_24
+}
 
 publishing {
     publications {
@@ -53,5 +54,16 @@ tasks.withType(Javadoc) {
 test {
     testLogging {
         showStandardStreams = true
+        exceptionFormat = 'full'
+    }
+}
+
+testing {
+    suites {
+        // Configure the built-in test suite
+        test {
+            // Use Spock test framework
+            useSpock(libs.versions.spock)
+        }
     }
 }

@@ -1443,7 +1443,10 @@ class QueryDSL {
 
         def args = []
         def conds = []
-        for (def it in conditions) {
+
+        def copy = conditions.collect { it }
+
+        for (def it in copy) {
             def result = makeCondition(it)
             conds << new CompiledCondition(typ: it.typ, sql: result[0])
             args.addAll(result[1])

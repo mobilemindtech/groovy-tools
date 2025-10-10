@@ -1,8 +1,7 @@
 package io.gtools.sql
 
 import groovy.util.logging.Slf4j
-import org.junit.Assert
-import org.junit.Test
+import spock.lang.Specification
 
 import static io.gtools.sql.QueryDSL.sql
 
@@ -10,10 +9,12 @@ import static io.gtools.sql.QueryDSL.sql
 
 //test-app unit: com.sql.dsl.*
 @Slf4j
-class SqlDSLSpec {
+class SqlDSLSpec extends Specification{
 
-    @Test
-    void testDsl() {
+    void "test sql dsl"() {
+
+        setup:
+        given:
         def dsl = sql {
             select 'id', 'name', 'e.id', col('id', 'codigo'), sum("x", "count")
             from 'person', 'p'
@@ -43,13 +44,7 @@ class SqlDSLSpec {
             offset 1
         }
 
-
-        try{
-            def c = dsl.compile()
-        }catch (err){
-            log.error err.message, err
-        }
-
-        Assert.assertTrue(true)
+        expect:
+        dsl.compile().sql instanceof String
     }
 }

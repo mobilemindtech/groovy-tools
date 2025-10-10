@@ -1,38 +1,34 @@
 package io.gtools.http
 
 import groovy.util.logging.Slf4j
-import org.junit.Assert
-import org.junit.Test
+import spock.lang.Specification
 
-import static io.gtools.http.HttpClient.http
+import static io.gtools.http.HttpClient.doGet
+import static io.gtools.http.HttpClient.doGetAsync
 
 //test-app unit:
 @Slf4j
-class HttpClientSpec {
+class HttpClientSpec extends Specification{
 
 
-    @Test
-    void testHttp() {
-
-        def client =
-            http {
+    void "simple http call"() {
+        setup:
+        given:
+            def result = doGet {
                 url = "http://tools.mobilemind.com.br/tools-api/mock/user"
             }
+        expect:
+        result.ok
+        (result.value.body.name instanceof  String)
+    }
 
-        client.get()
-            .ifFailure {
-                log.info "err"
-            }
-            .ifOk {
-                log.info("succ = $it")
-            }
-            .foreach {
-                log.info("JSON=${it}, body = ${it.body}")
-            }
-
-        log.info "end"
-
-
-        Assert.assertTrue(true)
+    void "simple http call async"() {
+        setup:
+        given:
+        def result = doGetAsync {
+            url = "http://tools.mobilemind.com.br/tools-api/mock/user"
+        }.get()
+        expect:
+        result.body.name instanceof  String
     }
 }
