@@ -388,4 +388,5 @@ class HttpClient {
                 throw new Exception("Request failed with status ${resp.statusCode()}")
         }
     }
+
 }
