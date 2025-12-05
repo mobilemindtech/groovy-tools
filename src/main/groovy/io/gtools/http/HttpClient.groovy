@@ -4,7 +4,7 @@ import groovy.json.JsonOutput
 import groovy.json.JsonSlurper
 import groovy.transform.TupleConstructor
 import groovy.transform.stc.ClosureParams
-import io.gio.Result
+import gio.core.Result
 import groovy.util.logging.Slf4j
 
 import java.net.http.HttpRequest
@@ -13,7 +13,7 @@ import java.net.http.HttpRequest as JavaHttpRequest
 import java.net.http.HttpResponse as JavaHttpResponse
 import java.net.http.HttpClient as JavaHttpClient
 
-import static io.gio.Result.tryOf
+import static gio.core.Result.tryOf
 
 trait HttpAuthMethod {}
 
@@ -333,7 +333,7 @@ class HttpClient {
     private String getPayload() {
         def payload = body
 
-        if(requestContentType == ContentType.JSON && !body instanceof String)
+        if(requestContentType == ContentType.JSON && !(body instanceof String))
             payload = JsonOutput.toJson(body)
         else if(requestContentType == ContentType.URLENC && body instanceof Map)
             payload = body.collect {k, v -> "$k=$v"}.join("&")

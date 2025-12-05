@@ -1,7 +1,7 @@
 package io.gtools.sql
 
-import io.gio.Result
-import io.gio.monads.Option
+import gio.core.Result
+import gio.core.Option
 import groovy.sql.GroovyRowResult
 import groovy.sql.Sql
 import groovy.transform.TupleConstructor

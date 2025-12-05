@@ -1,9 +1,9 @@
 package io.gtools
 
-import io.gio.Result
-import io.gio.monads.Option
+import gio.core.Result
+import gio.core.Option
 import groovy.util.logging.Slf4j
-import io.gio.types.Validator
+import io.gtools.types.Validator
 import io.gtools.errors.InvalidCsrfTokenException
 
 @Slf4j
@@ -44,12 +44,12 @@ class Action {
     }
 
     private List<Validator> validators = []
-    private Option<Closure> _allways = Option.none()
-    private Option<Closure> _successful = Option.none()
+    private Option<Closure> _allways = Option.ofNone()
+    private Option<Closure> _successful = Option.ofNone()
     private List<FlowData> runs = []
-    private Option<FlowData> _runWithForm = Option.none()
-    private Option<Closure> _catchAll = Option.none()
-    private Option<Closure> _errors = Option.none()
+    private Option<FlowData> _runWithForm = Option.ofNone()
+    private Option<Closure> _catchAll = Option.ofNone()
+    private Option<Closure> _errors = Option.ofNone()
     private List<FlowData> flowData = []
 
     private Object controller
