@@ -34,7 +34,7 @@ version = '0.0.1'
 description = 'Groovy tools'
 
 java {
-    java.sourceCompatibility = JavaVersion.VERSION_24
+    java.sourceCompatibility = JavaVersion.VERSION_25
 }
 
 publishing {
