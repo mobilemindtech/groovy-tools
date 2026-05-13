@@ -1,5 +1,7 @@
 package io.gtools.http
 
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import groovy.json.JsonOutput
 import groovy.json.JsonSlurper
 import groovy.transform.TupleConstructor
@@ -76,6 +78,7 @@ class HttpClient {
     Closure recover
     Closure failWith
     HttpResponse response
+    GsonBuilder gsonBuilder
     JavaHttpResponse.BodyHandler bodyHandler
     HttpAuth auth = new HttpAuth()
 
@@ -333,10 +336,12 @@ class HttpClient {
     private String getPayload() {
         def payload = body
 
-        if(requestContentType == ContentType.JSON && !(body instanceof String))
-            payload = JsonOutput.toJson(body)
-        else if(requestContentType == ContentType.URLENC && body instanceof Map)
-            payload = body.collect {k, v -> "$k=$v"}.join("&")
+        if(requestContentType == ContentType.JSON && !(body instanceof String)) {
+            gsonBuilder ?= new Gson().newBuilder()
+            payload = gsonBuilder.create().toJson(body)
+        } else if(requestContentType == ContentType.URLENC && body instanceof Map) {
+            payload = body.collect { k, v -> "$k=$v" }.join("&")
+        }
 
         payload
     }

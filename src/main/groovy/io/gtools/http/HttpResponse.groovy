@@ -31,7 +31,7 @@ class HttpResponse {
     boolean isOk() { statusCode == 200 }
 
     def <T> T decode(Class<T> cls, GsonBuilder builder = null) {
-        builder = builder ?: new Gson().newBuilder()
+        builder ?= new Gson().newBuilder()
         builder.create().fromJson(body ?: rawBody, cls)
     }
 
