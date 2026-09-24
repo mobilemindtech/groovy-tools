@@ -28,7 +28,7 @@ class Action {
 
         def run() {
             def result = f.call()
-            if (result instanceof Result<T>) {
+            if (result instanceof Result) {
                 result.rethrow
                 this.value = result.get()
             } else {
